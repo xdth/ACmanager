@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Server index{% endblock %}
+
+{% block body %}
+    <h1>Server index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Online</th>
+                <th>GamePort</th>
+                <th>Created_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for server in servers %}
+            <tr>
+                <td>{{ server.id }}</td>
+                <td>{{ server.name }}</td>
+                <td>{{ server.description }}</td>
+                <td>{{ server.online ? 'Yes' : 'No' }}</td>
+                <td>{{ server.gamePort }}</td>
+                <td>{{ server.createdAt ? server.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('server_show', {'id': server.id}) }}">show</a>
+                    <a href="{{ path('server_edit', {'id': server.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('server_new') }}">Create new</a>
+{% endblock %}
