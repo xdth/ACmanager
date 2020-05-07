@@ -118,6 +118,11 @@ class GameController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            
+            // delete the old file
+            $toDelete = new File($this->getParameter('gamefiles_directory').'/'.$game->getGameFilename());
+            unlink($toDelete);
+
             $entityManager->remove($game);
             $entityManager->flush();
         }
