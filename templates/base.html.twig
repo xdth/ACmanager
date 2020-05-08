@@ -21,13 +21,13 @@
   <a class="navbar-brand" href="/">AC manager</a>
   <ul class="navbar-nav mr-auto">
     {% if route_name != "app_login" %}
-    <li {% if route_name matches '{^players}' %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
+    <li {% if route_name matches '{^user}' %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
       <a class="nav-link" href="{{ path('user_index') }}">Players</a>
     </li>
-    <li {% if route_name matches '{^games}' %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
+    <li {% if route_name matches '{^game}' %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
       <a class="nav-link" href="{{ path('game_index') }}">Games</a>
     </li>
-    <li {% if route_name matches '{^servers}' %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
+    <li {% if route_name matches '{^server}' %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
       <a class="nav-link" href="{{ path('server_index') }}">Servers</a>
     </li>
     {% endif %}
