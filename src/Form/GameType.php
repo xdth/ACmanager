@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType; // @dth
 use Symfony\Component\Validator\Constraints\File; // @dth
+use Symfony\Component\Form\Extension\Core\Type\SubmitType; // @dth
 
 class GameType extends AbstractType
 {
@@ -17,7 +18,7 @@ class GameType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('gameFilename', FileType::class, [
-                'label' => 'File (zip file)',
+                'label' => 'File (.tar.bz2 file)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -37,6 +38,9 @@ class GameType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid .tar.bz2 file',
                     ])
                 ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'save'],
             ])
             
 
