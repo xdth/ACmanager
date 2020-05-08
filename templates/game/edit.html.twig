@@ -5,7 +5,32 @@
 {% block body %}
     <h1>Edit Game</h1>
 
-    {{ include('game/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+
+{{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+  <div class="form-group">
+    {{ form_row(form.name, {'attr': {'required': true}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.description) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.gameFilename, {'attr': {'required': false}}) }}
+  </div>
+
+  {{ form_widget(form.submit, {'attr': {'class': 'btn btn-dark'}}) }}
+
+
+  {{ form_rest(form) }}
+
+{{ form_end(form) }}    
+
+
 
     <a href="{{ path('game_index') }}">back to list</a>
 
