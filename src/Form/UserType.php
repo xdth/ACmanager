@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;  // @dth
 use Symfony\Component\Form\CallbackTransformer; // @dth
 use Symfony\Component\Form\Extension\Core\Type\SubmitType; // @dth
+use Symfony\Component\Form\Extension\Core\Type\PasswordType; // @dth
 
 class UserType extends AbstractType
 {
@@ -26,9 +27,12 @@ class UserType extends AbstractType
                   'Admin' => 'ROLE_ADMIN',
                 ],
             ])            
-            ->add('password')
+            ->add('password', PasswordType::class, [
+                'always_empty' => true,
+            ])
             ->add('email')
             // ->add('created_at')
+            ->add('serversOwned')
             ->add('serversAdmin')
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'save'],

@@ -4,6 +4,11 @@
 
 {% block body %}
 
+{# if not self or admin, don't show #}
+{% if (user.username != app.user.username) and (not is_granted('ROLE_ADMIN')) %}
+Unauthorized
+{% else %} {# if not self or admin, don't show #}
+
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -22,8 +27,8 @@
         <a class="btn btn-dark float-right" style="margin-left:10px;" role="button" href="{{ path('user_index') }}">Back to list</a>
         {{ include('user/_delete_form.html.twig') }}
     </div>
-   </div>
-   <!-- /.row -->
+   </div> <!-- /.row -->
+   
 
 
 
@@ -33,7 +38,7 @@
     </div>
 
   <div class="form-group">
-    {{ form_row(form.username, {'attr': {'required': true, 'disabled': true}}) }}
+    {{ form_row(form.username, {'attr': {'readonly': true, 'required': false }}) }}
   </div>
 
 {% if is_granted('ROLE_ADMIN') %}
@@ -53,10 +58,10 @@
   </div>
 {% elseif app.user.username == user.username %}
   <div class="form-group">
-    {{ form_row(form.password, {'attr': {'value': '***'}}) }}
+    {{ form_row(form.password) }}
   </div>
-
 {% else %}
+    {% do form.password.setRendered %}
 {% endif %}
 
 
@@ -67,12 +72,22 @@
   <div class="form-group">
     {{ form_row(form.email) }}
   </div>
-  <div class="form-group">
-    {{ form_row(form.serversAdmin) }}
-  </div>
 
-<p>Welcome, {{ app.user.username }}</p>
-<p>Username: {{ user.username }}</p>
+
+  {# % if is_granted('ROLE_ADMIN') %}
+    <div class="form-group">
+        {{ form_row(form.serversOwned) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.serversAdmin) }}
+    </div>
+  {% else %}
+    {% do form.serversOwned.setRendered %}
+    {% do form.serversAdmin.setRendered %}
+  {% endif % #}
+{% do form.serversOwned.setRendered %}
+{% do form.serversAdmin.setRendered %}
+
 
   <div class="row">
     <div class="col-sm-2">
@@ -89,8 +104,6 @@
    </div>
    <!-- /.row -->
 
-
-
-
-    
+{% endif %} {# if not self or admin, don't show #}
+   
 {% endblock %}

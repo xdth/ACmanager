@@ -36,3 +36,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # allow /login to be accessible anonymously
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # force EVERY URL to be protected
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }        
