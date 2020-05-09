@@ -5,7 +5,36 @@
 {% block body %}
     <h1>Create new User</h1>
 
-    {{ include('user/_form.html.twig') }}
+{{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+  <div class="form-group">
+    {{ form_row(form.username, {'attr': {'required': true}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.roles) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.password) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.email) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.serversAdmin) }}
+  </div>
+
+  {{ form_widget(form.submit, {'attr': {'class': 'btn btn-dark'}}) }}
+
+
+  {{ form_rest(form) }}
+
+{{ form_end(form) }}    
+
+
+
 
     <a href="{{ path('user_index') }}">back to list</a>
 {% endblock %}

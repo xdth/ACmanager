@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;  // @dth
 use Symfony\Component\Form\CallbackTransformer; // @dth
+use Symfony\Component\Form\Extension\Core\Type\SubmitType; // @dth
 
 class UserType extends AbstractType
 {
@@ -29,6 +30,9 @@ class UserType extends AbstractType
             ->add('email')
             // ->add('created_at')
             ->add('serversAdmin')
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'save'],
+            ])
         ;
 
         // @dth roles field data transformer 
