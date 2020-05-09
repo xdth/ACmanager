@@ -1,13 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Edit Player{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+{# if not self or admin, don't show #}
+{% if (user.username != app.user.username) and (not is_granted('ROLE_ADMIN')) %}
+Unauthorized
+{% else %} {# if not self or admin, don't show #}
 
-    <a href="{{ path('user_index') }}">back to list</a>
 
-    {{ include('user/_delete_form.html.twig') }}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('user_index') }}">Players</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
+  </ol>
+</nav>
+
+
+  <div class="row">
+    <div class="col-sm-8">
+        <h1>Edit Player</h1>
+    </div>
+    <div class="col-sm-4">
+        <a class="btn btn-dark float-right" style="margin-left:10px;" role="button" href="{{ path('user_index') }}">Back to list</a>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
+   </div> <!-- /.row -->
+   
+
+
+
+{{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+  <div class="form-group">
+    {{ form_row(form.username, {'attr': {'readonly': true, 'required': false }}) }}
+  </div>
+
+{% if is_granted('ROLE_ADMIN') %}
+  <div class="form-group">
+    {{ form_row(form.roles) }}
+  </div>
+{% else %}
+  <div class="form-group">
+    {{ form_row(form.roles, {'attr': {'disabled': true}}) }}
+  </div>
+{% endif %}
+
+
+{% if is_granted('ROLE_ADMIN') %}
+  <div class="form-group">
+    {{ form_row(form.password, {'attr': {'value': '***'}}) }}
+  </div>
+{% elseif app.user.username == user.username %}
+  <div class="form-group">
+    {{ form_row(form.password) }}
+  </div>
+{% else %}
+    {% do form.password.setRendered %}
+{% endif %}
+
+
+
+
+
+
+  <div class="form-group">
+    {{ form_row(form.email) }}
+  </div>
+
+
+  {# % if is_granted('ROLE_ADMIN') %}
+    <div class="form-group">
+        {{ form_row(form.serversOwned) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.serversAdmin) }}
+    </div>
+  {% else %}
+    {% do form.serversOwned.setRendered %}
+    {% do form.serversAdmin.setRendered %}
+  {% endif % #}
+{% do form.serversOwned.setRendered %}
+{% do form.serversAdmin.setRendered %}
+
+
+  <div class="row">
+    <div class="col-sm-2">
+
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-dark'}}) }}
+
+        {{ form_rest(form) }}
+
+        {{ form_end(form) }}
+
+    </div> <!-- col -->
+    <div class="col-sm-10">
+    </div> <!-- col -->
+   </div>
+   <!-- /.row -->
+
+{% endif %} {# if not self or admin, don't show #}
+   
 {% endblock %}
