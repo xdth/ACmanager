@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}New Player{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+
+{# if not admin, don't show #}
+{% if (not is_granted('ROLE_ADMIN')) %}
+Unauthorized
+{% else %} {# if not admin, don't show #}
+
+
+    <h1>Create new Player</h1>
 
 {{ form_start(form) }}
     <div class="my-custom-class-for-errors">
@@ -37,4 +44,6 @@
 
 
     <a href="{{ path('user_index') }}">back to list</a>
+
+{% endif %} {# if not admin, don't show #}    
 {% endblock %}

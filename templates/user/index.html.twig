@@ -17,7 +17,9 @@
         <h1>Players</h1>
     </div>
     <div class="col-sm-4">
-        <a class="btn btn-dark float-right" role="button" href="{{ path('user_new') }}">Create new</a>
+        {% if (is_granted('ROLE_ADMIN')) %}
+          <a class="btn btn-dark float-right" role="button" href="{{ path('user_new') }}">Create new</a>
+        {% endif %}    
     </div>
    </div>
    <!-- /.row -->
