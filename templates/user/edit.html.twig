@@ -46,9 +46,24 @@
   </div>
 {% endif %}
 
+
+{% if is_granted('ROLE_ADMIN') %}
   <div class="form-group">
-    {{ form_row(form.password, {'attr': {'placeholder': '555'}}) }}
+    {{ form_row(form.password, {'attr': {'value': '***'}}) }}
   </div>
+{% elseif app.user.username == user.username %}
+  <div class="form-group">
+    {{ form_row(form.password, {'attr': {'value': '***'}}) }}
+  </div>
+
+{% else %}
+{% endif %}
+
+
+
+
+
+
   <div class="form-group">
     {{ form_row(form.email) }}
   </div>
@@ -56,7 +71,8 @@
     {{ form_row(form.serversAdmin) }}
   </div>
 
-
+<p>Welcome, {{ app.user.username }}</p>
+<p>Username: {{ user.username }}</p>
 
   <div class="row">
     <div class="col-sm-2">
