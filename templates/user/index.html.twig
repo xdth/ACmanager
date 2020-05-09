@@ -44,11 +44,10 @@
                 <td>{# { user.roles ? user.roles|json_encode : '' } #}
 
                     {% if (user.roles[0] == 'ROLE_ADMIN') %}
-                    admin
+                      admin
                     {% else %}
-                    user
+                      user
                     {% endif %}
-
 
                 </td>
                 <td>{{ user.email }}</td>
