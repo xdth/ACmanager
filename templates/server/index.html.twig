@@ -46,7 +46,24 @@
                 <td>{{ server.createdAt ? server.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('server_show', {'id': server.id}) }}">show</a>
-                    {% if (is_granted('ROLE_ADMIN')) %}
+
+
+                    {% set show = false %}
+
+                    {# if superadmin or owner, show #}
+                    {% if (is_granted('ROLE_ADMIN')) or (server.owner == app.user.username) %}
+                        {% set show = true %}
+                    {% endif %}
+
+                    {# if server admin, show #}
+                    {% for admin in server.admins %}
+                        {% if admin.username == app.user.username %}
+                            {% set show = true %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if (show) %}
                       <a href="{{ path('server_edit', {'id': server.id}) }}">edit</a>
                     {% endif %}
                 </td>

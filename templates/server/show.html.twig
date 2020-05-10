@@ -3,7 +3,45 @@
 {% block title %}Server{% endblock %}
 
 {% block body %}
-    <h1>Server</h1>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('server_index') }}">Servers</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ server.name }}</li>
+  </ol>
+</nav>
+
+
+  <div class="row">
+    <div class="col-sm-8">
+        <h1>{{ server.name }}</h1>
+    </div>
+    <div class="col-sm-4">
+        <a class="btn btn-dark float-right" style="margin-left:10px;" role="button" href="{{ path('server_index') }}">Back to list</a>
+
+
+        {% set show = false %}
+
+        {# if superadmin or owner, show #}
+        {% if (is_granted('ROLE_ADMIN')) or (server.owner == app.user.username) %}
+            {% set show = true %}
+        {% endif %}
+
+        {# if server admin, show #}
+        {% for admin in server.admins %}
+            {% if admin.username == app.user.username %}
+                {% set show = true %}
+            {% endif %}
+        {% endfor %}
+
+
+        {% if (show) %}
+          {{ include('server/_delete_form.html.twig') }}
+          <a class="btn btn-dark float-right" style="margin-right:10px;" href="{{ path('server_edit', {'id': server.id}) }}">Edit</a>
+        {% endif %}  
+    </div>
+   </div> <!-- /.row -->
 
     <table class="table">
         <tbody>
@@ -34,9 +72,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('server_index') }}">back to list</a>
-
-    <a href="{{ path('server_edit', {'id': server.id}) }}">edit</a>
-
-    {{ include('server/_delete_form.html.twig') }}
 {% endblock %}
