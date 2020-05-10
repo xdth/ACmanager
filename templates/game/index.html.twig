@@ -4,8 +4,25 @@
 
 {% block body %}
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Games</li>
+  </ol>
+</nav>
 
-    <h1>Game index</h1>
+
+  <div class="row">
+    <div class="col-sm-8">
+        <h1>Games</h1>
+    </div>
+    <div class="col-sm-4">
+        {% if (is_granted('ROLE_ADMIN')) %}
+          <a class="btn btn-dark float-right" role="button" href="{{ path('game_new') }}">Create new</a>
+        {% endif %}    
+    </div>
+   </div>
+   <!-- /.row -->
 
     <table class="table">
         <thead>
@@ -14,7 +31,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>GameFilename</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +43,9 @@
                 <td>{{ game.gameFilename }}</td>
                 <td>
                     <a href="{{ path('game_show', {'id': game.id}) }}">show</a>
-                    <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
+                    {% if (is_granted('ROLE_ADMIN')) %}
+                      <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -37,5 +56,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('game_new') }}">Create new</a>
 {% endblock %}
