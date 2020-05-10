@@ -3,10 +3,32 @@
 {% block title %}Edit Game{% endblock %}
 
 {% block body %}
-    <h1>Edit Game</h1>
+
+{# if not admin, don't show #}
+{% if (not is_granted('ROLE_ADMIN')) %}
+Unauthorized
+{% else %} {# if not admin, don't show #}
 
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('game_index') }}">Games</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ game.name }}</li>
+  </ol>
+</nav>
 
+
+  <div class="row">
+    <div class="col-sm-8">
+        <h1>Edit Game</h1>
+    </div>
+    <div class="col-sm-4">
+        <a class="btn btn-dark float-right" style="margin-left:10px;" role="button" href="{{ path('game_index') }}">Back to list</a>
+        {{ include('game/_delete_form.html.twig') }}
+    </div>
+   </div> <!-- /.row -->
+   
 
 {{ form_start(form) }}
     <div class="my-custom-class-for-errors">
@@ -23,16 +45,20 @@
     {{ form_row(form.gameFilename, {'attr': {'required': false}}) }}
   </div>
 
-  {{ form_widget(form.submit, {'attr': {'class': 'btn btn-dark'}}) }}
+  <div class="row">
+    <div class="col-sm-2">
 
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-dark'}}) }}
 
-  {{ form_rest(form) }}
+        {{ form_rest(form) }}
 
-{{ form_end(form) }}    
+        {{ form_end(form) }}
 
+    </div> <!-- col -->
+    <div class="col-sm-10">
+    </div> <!-- col -->
+   </div>
+   <!-- /.row -->
 
-
-    <a href="{{ path('game_index') }}">back to list</a>
-
-    {{ include('game/_delete_form.html.twig') }}
+{% endif %} {# if not admin, don't show #}
 {% endblock %}

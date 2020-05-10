@@ -29,8 +29,9 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Description</th>
-                <th>GameFilename</th>
+                {% if (is_granted('ROLE_ADMIN')) %}
+                  <th>GameFilename</th>
+                {% endif %}
                 <th></th>
             </tr>
         </thead>
@@ -39,8 +40,9 @@
             <tr>
                 <td>{{ game.id }}</td>
                 <td>{{ game.name }}</td>
-                <td>{{ game.description }}</td>
-                <td>{{ game.gameFilename }}</td>
+                {% if (is_granted('ROLE_ADMIN')) %}
+                  <td>{{ game.gameFilename }}</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('game_show', {'id': game.id}) }}">show</a>
                     {% if (is_granted('ROLE_ADMIN')) %}
