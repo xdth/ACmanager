@@ -3,9 +3,80 @@
 {% block title %}New Server{% endblock %}
 
 {% block body %}
-    <h1>Create new Server</h1>
 
-    {{ include('server/_form.html.twig') }}
+{# if not admin, don't show #}
+{% if (not is_granted('ROLE_ADMIN')) %}
+Unauthorized
+{% else %} {# if not admin, don't show #}
 
-    <a href="{{ path('server_index') }}">back to list</a>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('server_index') }}">Servers</a></li>
+    <li class="breadcrumb-item active" aria-current="page">New</li>
+  </ol>
+</nav>
+
+
+  <div class="row">
+    <div class="col-sm-8">
+        <h1>Create new Server</h1>
+    </div>
+    <div class="col-sm-4">
+        <a class="btn btn-dark float-right" style="margin-left:10px;" role="button" href="{{ path('server_index') }}">Back to list</a>
+    </div>
+   </div> <!-- /.row -->
+   
+
+
+{{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+  <div class="form-group">
+    {{ form_row(form.name, {'attr': {'required': true}}) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.description) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.online) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.gamePort) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.owner) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.admins) }}
+  </div>
+  <div class="form-group">
+    {{ form_row(form.game) }}
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-sm-2">
+
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-dark'}}) }}
+
+        {{ form_rest(form) }}
+
+        {{ form_end(form) }}
+
+    </div> <!-- col -->
+    <div class="col-sm-10">
+    </div> <!-- col -->
+   </div>
+   <!-- /.row -->
+
+
+
+
+    {# { include('server/_form.html.twig') } #}
+{% endif %} {# if not admin, don't show #} 
 {% endblock %}

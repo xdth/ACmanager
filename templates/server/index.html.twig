@@ -3,14 +3,33 @@
 {% block title %}Server index{% endblock %}
 
 {% block body %}
-    <h1>Server index</h1>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Servers</li>
+  </ol>
+</nav>
+
+
+  <div class="row">
+    <div class="col-sm-8">
+        <h1>Servers</h1>
+    </div>
+    <div class="col-sm-4">
+        {% if (is_granted('ROLE_ADMIN')) %}
+          <a class="btn btn-dark float-right" role="button" href="{{ path('server_new') }}">Create new</a>
+        {% endif %}    
+    </div>
+   </div>
+   <!-- /.row -->
+
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Online</th>
                 <th>GamePort</th>
                 <th>Created_at</th>
@@ -22,13 +41,31 @@
             <tr>
                 <td>{{ server.id }}</td>
                 <td>{{ server.name }}</td>
-                <td>{{ server.description }}</td>
                 <td>{{ server.online ? 'Yes' : 'No' }}</td>
                 <td>{{ server.gamePort }}</td>
                 <td>{{ server.createdAt ? server.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('server_show', {'id': server.id}) }}">show</a>
-                    <a href="{{ path('server_edit', {'id': server.id}) }}">edit</a>
+
+
+                    {% set show = false %}
+
+                    {# if superadmin or owner, show #}
+                    {% if (is_granted('ROLE_ADMIN')) or (server.owner == app.user.username) %}
+                        {% set show = true %}
+                    {% endif %}
+
+                    {# if server admin, show #}
+                    {% for admin in server.admins %}
+                        {% if admin.username == app.user.username %}
+                            {% set show = true %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if (show) %}
+                      <a href="{{ path('server_edit', {'id': server.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -38,6 +75,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('server_new') }}">Create new</a>
+    
 {% endblock %}
