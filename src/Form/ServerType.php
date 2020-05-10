@@ -6,6 +6,7 @@ use App\Entity\Server;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType; // @dth
 
 class ServerType extends AbstractType
 {
@@ -20,6 +21,12 @@ class ServerType extends AbstractType
             ->add('owner')
             ->add('admins')
             ->add('game')
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'save'],
+            ])
+            
+
+
         ;
     }
 
